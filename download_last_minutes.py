@@ -39,10 +39,11 @@ def download_last_minutes(minutes=10):
     :param minutes:
     :return:
     """
-
     ts_now = datetime.datetime.now(tz=pytz.timezone('Europe/Amsterdam'))
     ts_record = ts_now - datetime.timedelta(minutes=minutes)
     dir_name = ts_record.strftime("%Y-%m-%d_%H-%M")
+
+    print(f'downloading last {minutes} minutes to {dir_name}...')
 
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
@@ -103,7 +104,7 @@ def download_last_minutes(minutes=10):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Download the last minutes of the current SRF3 audio stream.')
-    parser.add_argument('minutes', help='the number of minutes to download')
+    parser.add_argument('-m', '--minutes', required=False, type=int, default=10, help='the number of minutes to download')
     args = parser.parse_args()
-    download_last_minutes(args)
+    download_last_minutes(args.minutes)
 
